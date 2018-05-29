@@ -7,10 +7,23 @@ class About extends Component {
     return ( <
       div >
       <
-      h2 > About < /h2> < /
-      div >
+      h2 > About! < /h2> <
+      /div>
     );
   }
 }
 
-export default About;
+const mapStateToProps = (state) => {
+  return {};
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {};
+};
+
+About.propTypes = {};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(About);
