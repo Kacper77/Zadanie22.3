@@ -29,11 +29,11 @@ class PostListPage extends Component {
     this.props.dispatch(addPostRequest({ name, title, content }));
   };
 
-  handleThumbUp = (post, voteCount) => {
+  handleThumbUp = (post) => {
     this.props.dispatch(thumbUpRequest(post.cuid, post));
   }
 
-  handleThumbDown = (post, voteCount) => {
+  handleThumbDown = (post) => {
     this.props.dispatch(thumbDownRequest(post.cuid, post));
   }
 
