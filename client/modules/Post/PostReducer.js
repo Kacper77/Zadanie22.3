@@ -16,11 +16,11 @@ const PostReducer = (state = initialState, action) => {
       };
 
     case EDIT_POST:
-      THUMB_DOWN:
-        THUMB_UP:
-        return {
-          data: state.data.map(post => { return post.cuid === action.cuid ? Object.assign({}, post, action.post) : post }),
-        };
+    case THUMB_DOWN:
+    case THUMB_UP:
+      return {
+        data: state.data.map(post => { return post.cuid === action.cuid ? Object.assign({}, post, action.post) : post }),
+      };
 
     case DELETE_POST:
       return {
