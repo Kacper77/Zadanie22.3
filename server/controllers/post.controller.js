@@ -37,6 +37,7 @@ export function addPost(req, res) {
   newPost.content = sanitizeHtml(newPost.content);
 
   newPost.slug = slug(newPost.title.toLowerCase(), { lowercase: true });
+  newPost.voteCount = 0;
   newPost.cuid = cuid();
   newPost.save((err, saved) => {
     if (err) {

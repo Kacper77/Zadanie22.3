@@ -1,17 +1,23 @@
-import React, { PropTypes, Component } from 'react';
-import { connect } from 'react-redux';
+import React, { PropTypes, Component } from "react";
+import { connect } from "react-redux";
 
 // Import Components
-import PostList from '../../components/PostList';
-import PostCreateWidget from '../../components/PostCreateWidget/PostCreateWidget';
+import PostList from "../../components/PostList";
+import PostCreateWidget from "../../components/PostCreateWidget/PostCreateWidget";
 
 // Import Actions
-import { addPostRequest, fetchPosts, deletePostRequest } from '../../PostActions';
-import { toggleAddPost } from '../../../App/AppActions';
+import {
+  addPostRequest,
+  fetchPosts,
+  deletePostRequest,
+  thumbDownRequest,
+  thumbUpRequest,
+} from "../../PostActions";
+import { toggleAddPost } from "../../../App/AppActions";
 
 // Import Selectors
-import { getShowAddPost } from '../../../App/AppReducer';
-import { getPosts } from '../../PostReducer';
+import { getShowAddPost } from "../../../App/AppReducer";
+import { getPosts } from "../../PostReducer";
 
 class PostListPage extends Component {
   componentDidMount() {
@@ -19,7 +25,8 @@ class PostListPage extends Component {
   }
 
   handleDeletePost = post => {
-    if (confirm('Do you want to delete this post')) { // eslint-disable-line
+    if (confirm("Do you want to delete this post")) {
+      // eslint-disable-line
       this.props.dispatch(deletePostRequest(post));
     }
   };
@@ -31,49 +38,60 @@ class PostListPage extends Component {
 
   handleThumbUp = (post) => {
     this.props.dispatch(thumbUpRequest(post.cuid, post));
-  }
+  };
 
   handleThumbDown = (post) => {
     this.props.dispatch(thumbDownRequest(post.cuid, post));
-  }
+  };
 
   render() {
-    return ( <
-      div >
-      <
-      PostCreateWidget addPost = { this.handleAddPost } showAddPost = { this.props.showAddPost }
-      /> <
-      PostList handleDeletePost = { this.handleDeletePost } posts = { this.props.posts } handleThumbDown = { this.handleThumbDown } handleThumbUp = { this.handleThumbUp }
-      /> < /
-      div >
+    return (
+      <div>
+        <PostCreateWidget
+          addPost={this.handleAddPost}
+          showAddPost={this.props.showAddPost}
+        />
+        <PostList
+          handleDeletePost={this.handleDeletePost}
+          posts={this.props.posts}
+          handleThumbDown={this.handleThumbDown}
+          handleThumbUp={this.handleThumbUp}
+        />
+      </div>
     );
   }
 }
 
 // Actions required to provide data for this component to render in sever side.
-PostListPage.need = [() => { return fetchPosts(); }];
+PostListPage.need = [
+  () => {
+    return fetchPosts();
+  }
+];
 
 // Retrieve data from store as props
 function mapStateToProps(state) {
   return {
     showAddPost: getShowAddPost(state),
-    posts: getPosts(state),
+    posts: getPosts(state)
   };
 }
 
 PostListPage.propTypes = {
-  posts: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    content: PropTypes.string.isRequired,
-    voteCount: PropTypes.number.isRequired,
-  })).isRequired,
+  posts: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      content: PropTypes.string.isRequired,
+      voteCount: PropTypes.number.isRequired
+    })
+  ).isRequired,
   showAddPost: PropTypes.bool.isRequired,
-  dispatch: PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired
 };
 
 PostListPage.contextTypes = {
-  router: React.PropTypes.object,
+  router: React.PropTypes.object
 };
 
 export default connect(mapStateToProps)(PostListPage);
